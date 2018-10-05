@@ -17,3 +17,15 @@ renderTree <- function(expr, env = parent.frame(), quoted = FALSE){
     shiny::HTML(as.character(listToTags(tree)))
   })
 }
+
+#' Render an empty ShinyTree
+#' 
+#' Renders a tree with no defined nodes.
+#' \code{\link{shinyTree}}.
+#'
+#' @seealso \code{\link{shinyTree}}
+#' @export
+renderEmptyTree <- function() {
+  return(function(shinysession, name) {
+  })
+}

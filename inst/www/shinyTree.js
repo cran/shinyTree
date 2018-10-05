@@ -1,4 +1,7 @@
 var shinyTree = function(){
+  callbackCounter = 0;
+  sttypes = null;
+
   var treeOutput = new Shiny.OutputBinding();
   $.extend(treeOutput, {
     find: function(scope) {
@@ -6,7 +9,7 @@ var shinyTree = function(){
     },
     renderValue: function(el, data) {
       // Wipe the existing tree and create a new one.
-      $elem = $('#' + el.id)
+      $elem = $('#' + el.id);
       
       $elem.jstree('destroy');
       
@@ -21,10 +24,16 @@ var shinyTree = function(){
       if ($elem.data('st-dnd') === 'TRUE'){
         plugins.push('dnd');
       }
+      if ($elem.data('st-types') === 'TRUE'){
+        plugins.push('types');
+      }
       
-      var tree = $(el).jstree({'core' : {
-        "check_callback" : ($elem.data('st-dnd') === 'TRUE')
-      },plugins: plugins});
+      var tree = $(el).jstree({'core' : { 
+        "check_callback" : ($elem.data('st-dnd') === 'TRUE'), 
+        'themes': {'name': $elem.data('st-theme'), 'responsive': true, 'icons': ($elem.data('st-theme-icons') === 'TRUE'), 'dots': ($elem.data('st-theme-dots') === 'TRUE') }
+          },
+          "types" : sttypes,
+          plugins: plugins});
     }
   });
   Shiny.outputBindings.register(treeOutput, 'shinyTree.treeOutput');
@@ -61,37 +70,69 @@ var shinyTree = function(){
             obj.children = arrToObj(prune(obj.children, keys));
           }
           var clean = {};
+          
           $.each(obj, function(key, val){
-            if (keys.indexOf(key) >= 0){
-              if (key === 'li_attr'){ // We don't really want, just the class attr
-                if (!val.class){
-                  // Skip without adding element.
-                  return;
-                }
-                val = val.class;
-                key = 'class';
-              }
+            if (keys.indexOf(key) >= 0) {
+              //console.log(key + ": " + val)
               
-              if (typeof val === 'string'){
-                // TODO: We don't really want to trim but have to b/c of Shiny's pretty-printing.
-                clean[key] = val.trim();
+              if (key === 'li_attr') { // We don't really want, just the stid and class attr
+                if (val.stid){
+                  //console.log("stid (li_attr): " + val.stid)
+                  if (typeof val.stid === 'string'){
+                    // TODO: We don't really want to trim but have to b/c of Shiny's pretty-printing
+                    clean["stid"] = val.stid.trim();
+                  } else {
+                    clean["stid"] = val.stid; 
+                  }
+                }
+                
+                if (val.class) {
+                  //console.log("stclass (li_attr): " + val.class)
+                  if (typeof val.class === 'string'){
+                    // TODO: We don't really want to trim but have to b/c of Shiny's pretty-printing
+                    clean["stclass"] = val.class.trim();
+                  } else {
+                    clean["stclass"] = val.class; 
+                  }
+                }
+                
+                //if (!val.class){
+                //  console.log(key + ": " + val)
+                //  // Skip without adding element.
+                //  return;
+                //}
+                
+                //if (val.class){
+                //  val = val.class;
+                //  key = 'class';
+                //}
               } else {
-                clean[key] = val; 
+              
+                if (typeof val === 'string'){
+                  // TODO: We don't really want to trim but have to b/c of Shiny's pretty-printing.
+                  clean[key] = val.trim();
+                } else {
+                  clean[key] = val; 
+                }
               }
             }
           });
+          
           toReturn.push(clean);
         });
         return arrToObj(toReturn);
       }
       
       var tree = $.jstree.reference(el);
-      if (tree){ // May not be loaded yet.
-        var js = tree.get_json();
-        var pruned =  prune(js, ['state', 'text', 'li_attr']);
-        return pruned;
+      if (tree) { // May not be loaded yet.
+        if(tree.get_container().find("li").length>0) { // The tree may be initialized but empty
+          var js = tree.get_json();
+          var pruned =  prune(js, ['id', 'state', 'text', 'li_attr']);
+          callbackCounter++;
+          pruned.callbackCounter = callbackCounter;
+          return pruned;
+        }
       }
-      
     },
     setValue: function(el, value) {},
     subscribe: function(el, callback) {
@@ -118,6 +159,13 @@ var shinyTree = function(){
     },
     unsubscribe: function(el) {
       $(el).off(".jstree");
+    },
+    receiveMessage: function(el, message) {
+      // This receives messages of type "updateTree" from the server.
+      if(message.type == 'updateTree' && typeof message.data !== 'undefined') {
+          $(el).jstree(true).settings.core.data = JSON.parse(message.data);
+          $(el).jstree(true).refresh(true, true);
+      }
     }
   });
   
