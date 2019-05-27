@@ -1,8 +1,8 @@
 Package: shinyTree
 Type: Package
 Title: jsTree Bindings for Shiny
-Version: 0.2.6
-Date: 2018-10-04
+Version: 0.2.7
+Date: 2019-05-27
 Authors@R: c(
   person(family="Trestle Technology, LLC", role="aut", email="cran@trestletechnology.net"),
   person("Jeff", "Allen", role="aut", email="cran@trestletechnology.net"),
@@ -18,13 +18,13 @@ Description: Exposes bindings to jsTree -- a JavaScript library
     Shiny.
 License: MIT + file LICENSE
 Depends: R (>= 2.15.1), methods
-Imports: shiny (>= 0.9.0), jsonlite
+Imports: shiny (>= 0.9.0), htmlwidgets, jsonlite, stringr, promises
 Suggests: testthat
 BugReports: https://github.com/trestletech/shinyTree/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2018-10-05 00:47:13 UTC; mschaff
+Packaged: 2019-05-27 12:18:25 UTC; mschaff
 Author: Trestle Technology, LLC [aut],
   Jeff Allen [aut],
   Institut de Radioprotection et de Sûreté Nucléaire [cph],
@@ -36,4 +36,4 @@ Author: Trestle Technology, LLC [aut],
   Michael Bell [ctb]
 Maintainer: Mike Schaffer <mschaff@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-10-05 15:10:03 UTC
+Date/Publication: 2019-05-27 12:40:02 UTC

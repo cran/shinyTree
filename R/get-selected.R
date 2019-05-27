@@ -20,7 +20,6 @@ get_selected <- function(tree, format=c("names", "slices", "classid")){
          )  
 }
 
-#' @importFrom utils head tail
 get_selected_names <- function(tree, ancestry=NULL, vec=list()){
   if (is.list(tree)){
     for (i in 1:length(tree)){
@@ -32,9 +31,16 @@ get_selected_names <- function(tree, ancestry=NULL, vec=list()){
   a <- attr(tree, "stselected", TRUE)
   if (!is.null(a) && a == TRUE){
     # Get the element name
-    el <- tail(ancestry,n=1)
+    len_anc <- length(ancestry)
+    el <- ancestry[len_anc]
     vec[length(vec)+1] <- el
-    attr(vec[[length(vec)]], "ancestry") <- head(ancestry, n=length(ancestry)-1)
+    attr(vec[[length(vec)]], "ancestry") <- ancestry[1:len_anc-1]
+    #save attributes that start with "st" (ShinyTree)
+    lapply(names(attributes(tree)),function(attribute){
+        if(grepl("^st",attribute)){
+            attr(vec[[length(vec)]], attribute) <<- attr(tree,attribute)
+        }
+    })
   }
   return(vec)
 }
@@ -74,7 +80,7 @@ get_selected_classid <- function(tree, ancestry=NULL, vec=list()){
     a <- attr(tree, "stselected", TRUE)
     if (!is.null(a) && a == TRUE){
       # Get the element name
-      el <- tail(ancestry,n=1)
+      el <- ancestry[length(ancestry)]
       vec[length(vec)+1] <- el
       attr(vec[[length(vec)]], "stclass") <- attr(tree, "stclass", TRUE)
       attr(vec[[length(vec)]], "stid") <- attr(tree, "stid", TRUE)
