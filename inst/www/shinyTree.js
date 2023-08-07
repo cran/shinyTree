@@ -39,8 +39,9 @@ var shinyTree = function(){
         plugins.push('contextmenu');
       }
       var sttypes = null;
-      if(typeof window[el.id + "_sttypes"] !== 'undefined'){
-        sttypes = window[el.id + "_sttypes"];
+      var elidtypes = el.id.replace("-", '_');
+      if (typeof window[elidtypes + "_sttypes"] !== 'undefined'){
+      	sttypes = window[elidtypes + "_sttypes"];
       }
       var tree = $(el).jstree({
         'core': {
@@ -54,6 +55,11 @@ var shinyTree = function(){
             'icons': ($elem.data('st-theme-icons') === 'TRUE'),
             'dots': ($elem.data('st-theme-dots') === 'TRUE') 
           }
+        },
+        'checkbox': {
+          'three_state': ($elem.data('st-three-state') === 'TRUE'),
+          'tie_selection': ($elem.data('st-tie-selection') === 'TRUE'),
+          'whole_node': ($elem.data('st-whole-node') === 'TRUE')
         },
         "types" : sttypes,
         plugins: plugins});
@@ -138,6 +144,18 @@ var shinyTree = function(){
         callback();
       });
       
+      var opts = JSON.parse(el.attributes.options.nodeValue);
+      if (opts.setState && opts.setState === true) {
+        $(el).on("set_state.jstree", function(e) {
+          callback();
+        }); 
+      }
+      if (opts.refresh && opts.refresh === true) {
+        $(el).on("refresh.jstree", function(e) {
+          callback();
+        }); 
+      }
+      
       $(el).on("changed.jstree", function(e) {
         callback();
       });
@@ -152,27 +170,29 @@ var shinyTree = function(){
       });
       
       // callbacks for contextmenue
-      $(el).on("create_node.jstree", function(e){
-        callback();
-      });
-      $(el).on("rename_node.jstree", function(e){
-        callback();
-      });
-      $(el).on("delete_node.jstree", function(e){
-        callback();
-      });
-      $(el).on("copy_node.jstree", function(e){
-        callback();
-      });
-      $(el).on("cut.jstree", function(e){
-        callback();
-      });
-      $(el).on("copy.jstree", function(e){
-        callback();
-      });
-      $(el).on("paste.jstree", function(e){
-        callback();
-      });
+      if (el.dataset.stContextmenu == "TRUE") {
+        $(el).on("create_node.jstree", function(e){
+          callback();
+        });
+        $(el).on("rename_node.jstree", function(e){
+          callback();
+        });
+        $(el).on("delete_node.jstree", function(e){
+          callback();
+        });
+        $(el).on("copy_node.jstree", function(e){
+          callback();
+        });
+        $(el).on("cut.jstree", function(e){
+          callback();
+        });
+        $(el).on("copy.jstree", function(e){
+          callback();
+        });
+        $(el).on("paste.jstree", function(e){
+          callback();
+        });
+      }
       
     },
     unsubscribe: function(el) {

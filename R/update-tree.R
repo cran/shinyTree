@@ -23,25 +23,29 @@ Rlist2json <- function(nestedList) {
   as.character(toJSON(get_flatList(nestedList), auto_unbox = T))
 }
 
-#' @importFrom stringr str_subset str_match
-#fix icon retains backward compatibility for icon entries that are not fully specified
+#' @importFrom stringr str_match
+# fix icon retains backward compatibility for icon entries that are not fully specified
 fixIconName <- function(icon){
-  if(is.null(icon)){
+  ## - 'yes' branch of 'if' covers everything which should not be changed
+  ##   e.g. "/images/ball.jpg" or "fa fa-file
+  ## - 'no' branch of 'if' covers all cases which need to be changed:
+  ##   use regex (str_match) to capture groups: 
+  ##     * group 1 is either 'glyphicon', 'fa' or 'NA' (if not present)
+  ##     * group 2 is the rest wihtout a potential dash '-'
+  ##     * if group 1 is empty set it to 'fa'
+  ##     * paste the pieces together
+  res <- ifelse(grepl("[/\\]|(glyphicon|fa) \\1-", icon), 
+                icon, 
+                {
+                  parts <- str_match(icon, "(glyphicon|fa)*-*(\\S+)")
+                  parts[, 2] <- ifelse(is.na(parts[, 2]), "fa", parts[, 2])
+                  paste(parts[, 2], paste(parts[, 2], parts[, 3], sep = "-")) 
+                })
+  ## if NULL was given as parameter res will be length zero
+  if (!length(res)) {
     NULL
-  }else if(grepl("[/\\]",icon)){ #ie. "/images/ball.jpg"
-    icon
-  }else{
-    iconGroup <- str_subset(icon,"(\\S+) \\1-") #ie "fa fa-file"
-    if(length(iconGroup) > 0){
-      icon
-    }else{
-      iconGroup <- str_match(icon,"(fa|glyphicon)-") #ie "fa-file"
-      if(length(iconGroup) > 1 && !is.na(iconGroup[2])){
-        paste(iconGroup[2],icon)
-      }else{ #ie. just "file"
-        paste0("fa fa-",icon)
-      }
-    }
+  } else {
+    res
   }
 }
 
@@ -54,7 +58,7 @@ get_flatList <- function(nestedList, flatList = NULL, parent = "#") {
     additionalAttributes <- additionalAttributes[which(sapply(additionalAttributes,Negate(is.null)))]
     
     data <- lapply(names(attributes(nestedList[[name]])),function(key){
-      if(key %in% c("icon","type","names","stopened","stselected","sttype")){
+      if(key %in% c("icon","type","names","stopened","stselected","sttype", "stdisabled", "stchecked")){
         NULL
       }else{
         attr(nestedList[[name]],key)
@@ -72,7 +76,9 @@ get_flatList <- function(nestedList, flatList = NULL, parent = "#") {
         parent = parent,
         state = list(
           opened   = isTRUE(attr(nestedList[[name]], "stopened")),
-          selected = isTRUE(attr(nestedList[[name]], "stselected"))
+          selected = isTRUE(attr(nestedList[[name]], "stselected")),
+          disabled = isTRUE(attr(nestedList[[name]], "stdisabled")),
+          checked = isTRUE(attr(nestedList[[name]], "stchecked"))
         ),
         data = data
       ),
@@ -82,7 +88,7 @@ get_flatList <- function(nestedList, flatList = NULL, parent = "#") {
     flatList = c(flatList,list(nodeData))
     if (is.list(nestedList[[name]]))
       flatList =
-        get_flatList(nestedList[[name]], flatList, parent = as.character(length(flatList)))
+        Recall(nestedList[[name]], flatList, parent = as.character(length(flatList)))
   }
   flatList
 }

@@ -1,3 +1,16 @@
+ v 0.3.1
+--------------------------------------------------------------------------------
+ 
+- checkbox functionality
+- bugfixes
+ 
+
+ v 0.3.0
+--------------------------------------------------------------------------------
+ 
+- new function `set_node_attrs()` to set distinct node or leaf attributes 
+  (useful for creating file tree icons)
+ 
  v 0.2.7
 --------------------------------------------------------------------------------
 
@@ -5,6 +18,7 @@
 - Added support for promises/future to render a tree asynchronously.
 - Added additional examples for file browser and metadata retreival.
 - Added support to display various icons using types and specifying tree items
+- Added support for conversion from/to data.tree 
 
  v 0.2.6
 --------------------------------------------------------------------------------

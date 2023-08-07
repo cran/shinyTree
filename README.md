@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/shinyTree/shinyTree.svg?branch=master)](https://travis-ci.org/shinyTree/shinyTree)
+[![cran checks](https://badges.cranchecks.info/worst/shinyTree.svg)](https://cran.r-project.org/web/checks/check_results_shinyTree.html)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/shinyTree?color=brightgreen)](https://www.r-pkg.org/pkg/shinyTree)
+[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/grand-total/shinyTree)](https://www.rpackages.io/package/shinyTree)
+[![codecov](https://app.codecov.io/gh/shinyTree/shinyTree/branch/master/graph/badge.svg)](https://app.codecov.io/gh/shinyTree/shinyTree)
 
 shinyTree
 ==========
@@ -29,7 +32,7 @@ Getting Started
 
 ```
 library(shiny)
-runApp(system.file("examples/01-simple", package="shinyTree"))
+runApp(system.file("examples/01-simple", package = "shinyTree"))
 ```
 
 A simple example to demonstrate the usage of the shinyTree package.
@@ -38,7 +41,7 @@ A simple example to demonstrate the usage of the shinyTree package.
 
 ```
 library(shiny)
-runApp(system.file("examples/02-attributes", package="shinyTree"))
+runApp(system.file("examples/02-attributes", package = "shinyTree"))
 ```
 
 Manage properties of your tree by adding attributes to your list when rendering.
@@ -47,7 +50,7 @@ Manage properties of your tree by adding attributes to your list when rendering.
 
 ```
 library(shiny)
-runApp(system.file("examples/03-checkbox", package="shinyTree"))
+runApp(system.file("examples/03-checkbox", package = "shinyTree"))
 ```
 
 Use checkboxes to allow users to more easily manage which nodes are selected.
@@ -56,7 +59,7 @@ Use checkboxes to allow users to more easily manage which nodes are selected.
 
 ```
 library(shiny)
-runApp(system.file("examples/04-selected", package="shinyTree"))
+runApp(system.file("examples/04-selected", package = "shinyTree"))
 ```
 
 An example demonstrating how to set an `input` to the value of the currently selected node in the tree.
@@ -65,7 +68,7 @@ An example demonstrating how to set an `input` to the value of the currently sel
 
 ```
 library(shiny)
-runApp(system.file("examples/05-structure", package="shinyTree"))
+runApp(system.file("examples/05-structure", package = "shinyTree"))
 ```
 
 Demonstrates the low-level usage of a shinyTree as an input in which all attributes describing the state of the tree can be read.
@@ -75,7 +78,7 @@ Demonstrates the low-level usage of a shinyTree as an input in which all attribu
 
 ```
 library(shiny)
-runApp(system.file("examples/06-search", package="shinyTree"))
+runApp(system.file("examples/06-search", package = "shinyTree"))
 ```
 
 An example showing the use of the search plugin to allow users to more easily navigate the nodes in your tree.
@@ -84,7 +87,7 @@ An example showing the use of the search plugin to allow users to more easily na
 
 ```
 library(shiny)
-runApp(system.file("examples/07-drag-and-drop", package="shinyTree"))
+runApp(system.file("examples/07-drag-and-drop", package = "shinyTree"))
 ```
 
 An example demonstrating the use of the drag-and-drop feature which allows the user to reorder the nodes in the tree.
@@ -93,7 +96,7 @@ An example demonstrating the use of the drag-and-drop feature which allows the u
 
 ```
 library(shiny)
-runApp(system.file("examples/08-class", package="shinyTree"))
+runApp(system.file("examples/08-class", package = "shinyTree"))
 ```
 
 An example demonstrating the use of the ability to style nodes using custom classes.
@@ -102,7 +105,7 @@ An example demonstrating the use of the ability to style nodes using custom clas
 
 ```
 library(shiny)
-runApp(system.file("examples/09-themes", package="shinyTree"))
+runApp(system.file("examples/09-themes", package = "shinyTree"))
 ```
 
 An example demonstrating the use of built-in tree themes.
@@ -111,7 +114,7 @@ An example demonstrating the use of built-in tree themes.
 
 ```
 library(shiny)
-runApp(system.file("examples/10-node-ids", package="shinyTree"))
+runApp(system.file("examples/10-node-ids", package = "shinyTree"))
 ```
 
 An example demonstrating the ability to label and return node identifiers and classes.
@@ -120,7 +123,7 @@ An example demonstrating the ability to label and return node identifiers and cl
 
 ```
 library(shiny)
-runApp(system.file("examples/11-tree-update", package="shinyTree"))
+runApp(system.file("examples/11-tree-update", package = "shinyTree"))
 ```
 
 An example demonstrating the ability to update a tree with a new tree model.  This was broken in the original version as the tree was destroyed upon initialization.
@@ -129,7 +132,7 @@ An example demonstrating the ability to update a tree with a new tree model.  Th
 
 ```
 library(shiny)
-runApp(system.file("examples/12-types", package="shinyTree"))
+runApp(system.file("examples/12-types", package = "shinyTree"))
 ```
 
 An example demonstrating node types with custom icons.
@@ -138,7 +141,7 @@ An example demonstrating node types with custom icons.
 
 ```
 library(shiny)
-runApp(system.file("examples/13-icons", package="shinyTree"))
+runApp(system.file("examples/13-icons", package = "shinyTree"))
 ```
 
 An example demonstrating various ways to use icons on nodes.
@@ -147,7 +150,7 @@ An example demonstrating various ways to use icons on nodes.
 
 ```
 library(shiny)
-runApp(system.file("examples/14-files", package="shinyTree"))
+runApp(system.file("examples/14-files", package = "shinyTree"))
 ```
 
 Demonstrates how to create a file browser tree.
@@ -156,7 +159,7 @@ Demonstrates how to create a file browser tree.
 
 ```
 library(shiny)
-runApp(system.file("examples/15-data", package="shinyTree"))
+runApp(system.file("examples/15-data", package = "shinyTree"))
 ```
 
 Demonstrates how to attach and retreive metadata from a node.
@@ -165,7 +168,7 @@ Demonstrates how to attach and retreive metadata from a node.
 
 ```
 library(shiny)
-runApp(system.file("examples/16-async", package="shinyTree"))
+runApp(system.file("examples/16-async", package = "shinyTree"))
 ```
 
 Demonstrates how to render a tree asynchronously.
@@ -174,10 +177,63 @@ Demonstrates how to render a tree asynchronously.
 
 ```
 library(shiny)
-runApp(system.file("examples/17-contextmenu", package="shinyTree"))
+runApp(system.file("examples/17-contextmenu", package = "shinyTree"))
 ```
 
 Demonstrates how to enable the contextmenu.
+
+#### 18-modules
+
+```
+library(shiny)
+runApp(system.file("examples/18-modules/app.R", package="shinyTree"))
+runApp(system.file("examples/18-modules/app_types.R", package="shinyTree"))
+```
+
+Demonstrates how to use shinyTree with shiny modules.
+
+#### 19-data.tree
+```
+library(shiny)
+runApp(system.file("examples/19-data.tree", package = "shinyTree"))
+```
+
+Demonstrates how to pass a data.tree to shinyTree.
+
+#### 20-api
+
+```
+library(shiny)
+runApp(system.file("examples/20-api", package = "shinyTree"))
+```
+
+An example demonstrating how to extend the operations on the tree to the rest of
+the [jsTree's core functionality](https://www.jstree.com/api/).
+
+#### 21-options
+
+```
+library(shiny)
+runApp(system.file("examples/21-options/app_setState_refresh.R", package="shinyTree"))
+```
+
+Demonstrates how to fine-tune shinyTree's behaviour with options. Specifically:
+When internal `jstree` code calls `set_state` or `refresh`, a callback is made so that the shiny
+server is notified and `observe` and `observeEvents` for the tree are fired.
+This can be useful if the developer would like `observe` and `observeEvents` to run after
+using `updateTree`. (By default, `updateTree` does not run `observe` or `observeEvent` because it
+is assumed that the shiny application knows that the tree is being changed already.)
+
+#### 23-file-icons
+
+```
+library(shiny)
+library(shinyTree)
+runApp(system.file("examples/23-file-icons", package = "shinyTree"))
+```
+
+An example demonstrating how to create a file tree with individual icons.
+
 
 Known Bugs
 ----------
@@ -188,8 +244,7 @@ License
 -------
 
 The development of this project was generously sponsored by the [Institut de 
-Radioprotection et de Sûreté Nucléaire](http://www.irsn.fr/EN/Pages/home.aspx) 
-and performed by [Jeff Allen](http://trestletech.com). The code is
+and performed by [Jeff Allen](https://trestletech.com). The code is
 licensed under The MIT License (MIT).
 
 Copyright (c) 2014 Institut de Radioprotection et de Sûreté Nucléaire
